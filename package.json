@@ -5,10 +5,12 @@
   "license": "ISC",
   "author": "Francesco Intini <francesco.intini@solomei.ai>",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
+    "prestart": "npm run build",
     "start": "node dist/index.js",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
@@ -29,6 +31,7 @@
     "@types/node": "^22.13.5"
   },
   "files": [
-    "dist"
+    "dist",
+    "parameters"
   ]
 }
