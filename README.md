@@ -140,7 +140,3 @@ npm start
 ## License
 
 ISC
-
-## Author
-
-Francesco Intini <francesco.intini@solomei.ai>
