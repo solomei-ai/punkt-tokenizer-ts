@@ -2,5 +2,5 @@
 node_modules
 src_data
 out_data
-dist
+# dist
 parameters
