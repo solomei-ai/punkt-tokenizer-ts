@@ -281,7 +281,7 @@ class PunktTokenizer {
 }
 exports.PunktTokenizer = PunktTokenizer;
 PunktTokenizer.DEFAULT_LANGUAGE = "en";
-PunktTokenizer.PARAMETERS_DIR = path.join("parameters");
+PunktTokenizer.PARAMETERS_DIR = path.join(path.dirname(__filename), "..", "parameters");
 PunktTokenizer.boundaryRegex = /[.?!]+(?:\s+|$)/g;
 PunktTokenizer.whitespaceRegex = /\s/;
 PunktTokenizer.wordBoundaryRegex = /\s/;

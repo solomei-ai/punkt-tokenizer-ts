@@ -34,7 +34,11 @@ export interface SentenceToken {
 export class PunktTokenizer {
   private model: PunktModel;
   private static DEFAULT_LANGUAGE = "en";
-  private static PARAMETERS_DIR = path.join(__dirname, "..", "parameters");
+  private static PARAMETERS_DIR = path.join(
+    path.dirname(__filename),
+    "..",
+    "parameters"
+  );
 
   private _abbrevTypesSet: Set<string>;
   private _sentStartersSet: Set<string>;
