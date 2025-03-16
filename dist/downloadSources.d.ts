@@ -11,4 +11,3 @@
  */
 declare function cloneNLTKPunktData(reset?: boolean): Promise<string>;
 export default cloneNLTKPunktData;
-//# sourceMappingURL=downloadSources.d.ts.map

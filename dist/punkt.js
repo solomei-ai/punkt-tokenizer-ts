@@ -1,46 +1,23 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.PunktTokenizer = void 0;
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
+import fs from "node:fs";
+import path from "node:path";
+import languageMap from "./languageMap.js";
 /**
  * A simplified implementation of the Punkt sentence tokenizer.
  * Loads a pre-converted JSON model and provides tokenization functionality.
  */
-class PunktTokenizer {
+export class PunktTokenizer {
+    model;
+    static DEFAULT_LANGUAGE = "en";
+    static PARAMETERS_DIR = path.join(import.meta.dirname, "..", "parameters");
+    _abbrevTypesSet;
+    _sentStartersSet;
+    _cachedNextTokens = new Map();
+    _cachedAbbreviations = new Map();
+    static boundaryRegex = /[.?!]+(?:\s+|$)/g;
+    static whitespaceRegex = /\s/;
+    static wordBoundaryRegex = /\s/;
+    static endPunctuationRegex = /[.?!]+$/;
+    static twoLetterLangCodeRegex = /^[a-z]{2}$/;
     /**
      * Creates a new PunktTokenizer instance.
      *
@@ -48,13 +25,11 @@ class PunktTokenizer {
      *                   or full language name (e.g., 'english', 'french')
      */
     constructor(language = PunktTokenizer.DEFAULT_LANGUAGE) {
-        this._cachedNextTokens = new Map();
-        this._cachedAbbreviations = new Map();
         const langCode = this.resolveLanguageCode(language);
         const modelFilePath = path.join(PunktTokenizer.PARAMETERS_DIR, `${langCode}.json`);
         try {
             const fullPath = path.resolve(modelFilePath);
-            this.model = require(fullPath);
+            this.model = JSON.parse(fs.readFileSync(fullPath, "utf-8"));
             this._abbrevTypesSet = new Set(this.model.abbrevTypes.map((s) => s.toLowerCase()));
             this._sentStartersSet = new Set(this.model.sentStarters.map((s) => s.toLowerCase()));
         }
@@ -63,7 +38,7 @@ class PunktTokenizer {
             if (langCode !== PunktTokenizer.DEFAULT_LANGUAGE) {
                 const defaultModelPath = path.join(PunktTokenizer.PARAMETERS_DIR, `${PunktTokenizer.DEFAULT_LANGUAGE}.json`);
                 const fullPath = path.resolve(defaultModelPath);
-                this.model = require(fullPath);
+                this.model = JSON.parse(fs.readFileSync(fullPath, "utf-8"));
                 this._abbrevTypesSet = new Set(this.model.abbrevTypes.map((s) => s.toLowerCase()));
                 this._sentStartersSet = new Set(this.model.sentStarters.map((s) => s.toLowerCase()));
             }
@@ -83,14 +58,8 @@ class PunktTokenizer {
             return language.toLowerCase();
         }
         try {
-            if (!PunktTokenizer.languageMapCache) {
-                PunktTokenizer.languageMapCache = require("./languageMap").default;
-            }
             const langLower = language.toLowerCase();
-            if (PunktTokenizer.languageMapCache &&
-                PunktTokenizer.languageMapCache[langLower]) {
-                return PunktTokenizer.languageMapCache[langLower];
-            }
+            return languageMap[langLower];
         }
         catch (error) {
             console.warn(`Could not load language map: ${error}`);
@@ -279,13 +248,4 @@ class PunktTokenizer {
         }
     }
 }
-exports.PunktTokenizer = PunktTokenizer;
-PunktTokenizer.DEFAULT_LANGUAGE = "en";
-PunktTokenizer.PARAMETERS_DIR = path.join(path.dirname(__filename), "..", "parameters");
-PunktTokenizer.boundaryRegex = /[.?!]+(?:\s+|$)/g;
-PunktTokenizer.whitespaceRegex = /\s/;
-PunktTokenizer.wordBoundaryRegex = /\s/;
-PunktTokenizer.endPunctuationRegex = /[.?!]+$/;
-PunktTokenizer.twoLetterLangCodeRegex = /^[a-z]{2}$/;
-PunktTokenizer.languageMapCache = null;
-exports.default = PunktTokenizer;
+export default PunktTokenizer;

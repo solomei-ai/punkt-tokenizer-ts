@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Maps language names in lowercase to their corresponding ISO 639-1 codes.
  * This map is used for standardizing language identifiers across the application.
@@ -80,4 +78,4 @@ const languageMap = {
     yoruba: "yo",
     zulu: "zu",
 };
-exports.default = languageMap;
+export default languageMap;

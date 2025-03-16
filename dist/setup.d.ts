@@ -6,4 +6,3 @@
  */
 declare const setup: () => Promise<void>;
 export default setup;
-//# sourceMappingURL=setup.d.ts.map

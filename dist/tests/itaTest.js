@@ -1,12 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const punkt_1 = __importDefault(require("../punkt"));
+import PunktTokenizer from "../punkt.js";
 const testIta = () => {
     const totalStartTime = performance.now();
-    const tokenizer = new punkt_1.default("it");
+    const tokenizer = new PunktTokenizer("it");
     // Memory usage tracking
     let memoryUsages = [];
     let maxMemory = 0;
@@ -93,7 +88,5 @@ const testIta = () => {
     console.log(`- Average: ${avgMemory.toFixed(2)} MB`);
 };
 // Run the test when this file is executed directly
-if (require.main === module) {
-    testIta();
-}
-exports.default = testIta;
+testIta();
+export default testIta;

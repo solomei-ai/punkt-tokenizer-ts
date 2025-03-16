@@ -26,7 +26,6 @@ export declare class PunktTokenizer {
     private static wordBoundaryRegex;
     private static endPunctuationRegex;
     private static twoLetterLangCodeRegex;
-    private static languageMapCache;
     /**
      * Creates a new PunktTokenizer instance.
      *
@@ -88,4 +87,3 @@ export declare class PunktTokenizer {
     static getAvailableLanguages(): string[];
 }
 export default PunktTokenizer;
-//# sourceMappingURL=punkt.d.ts.map

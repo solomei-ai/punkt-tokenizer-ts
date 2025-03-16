@@ -1,4 +1,3 @@
-import PunktTokenizer from "./punkt";
-import setup from "./setup";
+import PunktTokenizer from "./punkt.js";
+import setup from "./setup.js";
 export { PunktTokenizer, setup as setupPunkt };
-//# sourceMappingURL=index.d.ts.map

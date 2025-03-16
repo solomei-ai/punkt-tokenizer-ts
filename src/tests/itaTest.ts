@@ -1,4 +1,4 @@
-import PunktTokenizer from "../punkt";
+import PunktTokenizer from "../punkt.js";
 
 const testIta = () => {
   const totalStartTime = performance.now();
@@ -104,8 +104,6 @@ const testIta = () => {
 };
 
 // Run the test when this file is executed directly
-if (require.main === module) {
-  testIta();
-}
+testIta();
 
 export default testIta;

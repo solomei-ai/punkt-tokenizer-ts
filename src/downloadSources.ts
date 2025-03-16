@@ -1,7 +1,7 @@
 import * as AdmZip from "adm-zip";
 import axios from "axios";
-import * as fs from "fs";
-import * as path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 /**
  * Downloads NLTK Punkt tokenizer data from GitHub and stores it in the 'src_data'
@@ -15,9 +15,7 @@ import * as path from "path";
  * @throws Will throw an error if the download request fails.
  */
 async function cloneNLTKPunktData(reset: boolean = true): Promise<string> {
-  const sourceDataUrl: string =
-    "https://raw.githubusercontent.com" +
-    "/nltk/nltk_data/gh-pages/packages/tokenizers/punkt_tab.zip";
+  const sourceDataUrl = "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt_tab.zip";
 
   const dataDir = "src_data";
 

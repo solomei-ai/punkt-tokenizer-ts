@@ -1,5 +1,6 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "node:fs";
+import path from "node:path";
+import languageMap from "./languageMap.js";
 
 /**
  * Represents a Punkt model converted to JSON format.
@@ -35,9 +36,9 @@ export class PunktTokenizer {
   private model: PunktModel;
   private static DEFAULT_LANGUAGE = "en";
   private static PARAMETERS_DIR = path.join(
-    path.dirname(__filename),
-    "..",
-    "parameters"
+      import.meta.dirname,
+      "..",
+      "parameters"
   );
 
   private _abbrevTypesSet: Set<string>;
@@ -50,8 +51,6 @@ export class PunktTokenizer {
   private static wordBoundaryRegex = /\s/;
   private static endPunctuationRegex = /[.?!]+$/;
   private static twoLetterLangCodeRegex = /^[a-z]{2}$/;
-
-  private static languageMapCache: Record<string, string> | null = null;
 
   /**
    * Creates a new PunktTokenizer instance.
@@ -68,7 +67,7 @@ export class PunktTokenizer {
 
     try {
       const fullPath = path.resolve(modelFilePath);
-      this.model = require(fullPath) as PunktModel;
+      this.model = JSON.parse(fs.readFileSync(fullPath, "utf-8")) as PunktModel;
 
       this._abbrevTypesSet = new Set(
         this.model.abbrevTypes.map((s) => s.toLowerCase())
@@ -87,7 +86,7 @@ export class PunktTokenizer {
           `${PunktTokenizer.DEFAULT_LANGUAGE}.json`
         );
         const fullPath = path.resolve(defaultModelPath);
-        this.model = require(fullPath) as PunktModel;
+        this.model = JSON.parse(fs.readFileSync(fullPath, "utf-8")) as PunktModel;
         this._abbrevTypesSet = new Set(
           this.model.abbrevTypes.map((s) => s.toLowerCase())
         );
@@ -112,16 +111,8 @@ export class PunktTokenizer {
     }
 
     try {
-      if (!PunktTokenizer.languageMapCache) {
-        PunktTokenizer.languageMapCache = require("./languageMap").default;
-      }
       const langLower = language.toLowerCase();
-      if (
-        PunktTokenizer.languageMapCache &&
-        PunktTokenizer.languageMapCache[langLower]
-      ) {
-        return PunktTokenizer.languageMapCache[langLower];
-      }
+      return languageMap[langLower];
     } catch (error) {
       console.warn(`Could not load language map: ${error}`);
     }

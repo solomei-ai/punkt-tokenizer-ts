@@ -19,4 +19,3 @@
  */
 declare function convertPunktData(dataDir: string): void;
 export default convertPunktData;
-//# sourceMappingURL=convertPunktData.d.ts.map

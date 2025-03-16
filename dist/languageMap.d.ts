@@ -5,4 +5,3 @@
  */
 declare const languageMap: Record<string, string>;
 export default languageMap;
-//# sourceMappingURL=languageMap.d.ts.map
