@@ -1,0 +1,53 @@
+name: Dependabot Docker Build
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: ["main", "dev"]
+
+jobs:
+  build-app:
+    # Only run if the actor is Dependabot
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          # This will do a local build to verify Dockerfile is valid
+          # and that dependencies compile successfully.
+          push: false # Don't push the image anywhere
+          platforms: linux/amd64,linux/arm64
+  build-nginx:
+    # Only run if the actor is Dependabot
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          # This will do a local build to verify Dockerfile is valid
+          # and that dependencies compile successfully.
+          push: false # Don't push the image anywhere
+          context: "{{defaultContext}}:nginx"
+          platforms: linux/amd64,linux/arm64
