@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import languageMap from "./language-map.js";
 /**
  * Converts abbrev_types.txt into an array of strings.
  * Ignores empty lines or lines containing only hyphens.
@@ -97,7 +98,6 @@ function convertPunktData(dataDir) {
         .readdirSync(punktTabDir, { withFileTypes: true })
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => dirent.name);
-    const languageMap = require("./language-map.js").default;
     for (const langDir of languageDirs) {
         const langLower = langDir.toLowerCase();
         if (!languageMap[langLower]) {
