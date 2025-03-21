@@ -1,6 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
-import languageMap from "./languageMap.js";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import languageMap from "./utils/language-map.js";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 /**
  * A simplified implementation of the Punkt sentence tokenizer.
  * Loads a pre-converted JSON model and provides tokenization functionality.
@@ -8,7 +12,7 @@ import languageMap from "./languageMap.js";
 export class PunktTokenizer {
     model;
     static DEFAULT_LANGUAGE = "en";
-    static PARAMETERS_DIR = path.join(import.meta.dirname, "..", "parameters");
+    static PARAMETERS_DIR = path.join(__dirname, "..", "parameters");
     _abbrevTypesSet;
     _sentStartersSet;
     _cachedNextTokens = new Map();

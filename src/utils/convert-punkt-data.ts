@@ -103,7 +103,7 @@ function convertPunktData(dataDir: string) {
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
 
-  const languageMap = require("./languageMap").default;
+  const languageMap = require("./language-map.js").default;
 
   for (const langDir of languageDirs) {
     const langLower = langDir.toLowerCase();
