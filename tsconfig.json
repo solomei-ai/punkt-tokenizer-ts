@@ -6,7 +6,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "strict": true
+    "strict": true,
+    "types": ["node", "jest"]
   },
   "exclude": ["test", "dist"]
 }

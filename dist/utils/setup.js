@@ -1,6 +1,6 @@
 import fs from "node:fs";
-import convertPunktData from "./convertPunktData.js";
-import cloneNLTKPunktData from "./downloadSources.js";
+import convertPunktData from "./convert-punkt-data.js";
+import cloneNLTKPunktData from "./download-sources.js";
 /**
  * Deletes a folder and all its contents.
  * Safely handles errors during deletion.

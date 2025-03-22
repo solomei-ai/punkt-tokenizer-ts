@@ -8,29 +8,32 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "postinstall": "node dist/post-install.js",
     "dev": "ts-node src/index.ts",
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
-    "test": "ts-node src/tests/itaTest.ts",
-    "test_builded": "node dist/tests/itaTest.js"
+    "test_builded": "node dist/tests/itaTest.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
   "engines": {
     "node": ">=22.14.0"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
-    "axios": "^1.8.3"
+    "axios": "^1.8.4"
   },
   "devDependencies": {
-    "@types/adm-zip": "^0.5.7",
-    "@types/node": "^22.13.10",
     "@tsconfig/node22": "^22.0.0",
-    "typescript": "^5.8.2",
+    "@types/adm-zip": "^0.5.7",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.11",
+    "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
-    "tsc-node": "^0.0.3"
+    "typescript": "^5.8.2"
   },
   "files": [
     "dist",

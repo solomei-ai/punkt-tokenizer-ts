@@ -1,6 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-import languageMap from "./languageMap.js";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import languageMap from "./utils/language-map.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Represents a Punkt model converted to JSON format.
@@ -35,11 +40,7 @@ export interface SentenceToken {
 export class PunktTokenizer {
   private model: PunktModel;
   private static DEFAULT_LANGUAGE = "en";
-  private static PARAMETERS_DIR = path.join(
-      import.meta.dirname,
-      "..",
-      "parameters"
-  );
+  private static PARAMETERS_DIR = path.join(__dirname, "..", "parameters");
 
   private _abbrevTypesSet: Set<string>;
   private _sentStartersSet: Set<string>;
@@ -86,7 +87,9 @@ export class PunktTokenizer {
           `${PunktTokenizer.DEFAULT_LANGUAGE}.json`
         );
         const fullPath = path.resolve(defaultModelPath);
-        this.model = JSON.parse(fs.readFileSync(fullPath, "utf-8")) as PunktModel;
+        this.model = JSON.parse(
+          fs.readFileSync(fullPath, "utf-8")
+        ) as PunktModel;
         this._abbrevTypesSet = new Set(
           this.model.abbrevTypes.map((s) => s.toLowerCase())
         );
