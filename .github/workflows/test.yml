@@ -32,7 +32,9 @@ jobs:
       - name: Generate coverage report
         id: coverage
         run: |
-          echo "::set-output name=summary::$(node -e 'const fs = require("fs"); const coverage = JSON.parse(fs.readFileSync("./coverage/coverage-summary.json")); const total = coverage.total; let table = "### Test Coverage Report\n\n| Category | Percentage | Covered/Total |\n|----------|------------|---------------|\n"; for (const type of ["lines", "statements", "functions", "branches"]) { table += `| ${type.charAt(0).toUpperCase() + type.slice(1)} | ${total[type].pct.toFixed(2)}% | ${total[type].covered}/${total[type].total} |\n`; } console.log(table);')"
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          node -e 'const fs = require("fs"); const coverage = JSON.parse(fs.readFileSync("./coverage/coverage-summary.json")); const total = coverage.total; let table = "### Test Coverage Report\n\n| Category | Percentage | Covered/Total |\n|----------|------------|---------------|\n"; for (const type of ["lines", "statements", "functions", "branches"]) { table += `| ${type.charAt(0).toUpperCase() + type.slice(1)} | ${total[type].pct.toFixed(2)}% | ${total[type].covered}/${total[type].total} |\n`; } console.log(table);' >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment PR
         uses: actions/github-script@v6
@@ -40,10 +42,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const coverageSummary = `${{ steps.coverage.outputs.summary }}`;
+            
+            // Add a fallback in case the summary is still empty
+            const body = coverageSummary || '### Test Coverage Report\n\nNo coverage data available.';
+            
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: coverageSummary
+              body: body
             });
 
