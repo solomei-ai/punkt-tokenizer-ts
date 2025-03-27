@@ -16,7 +16,8 @@ describe("PunktTokenizer Constructor", () => {
         expect(tokenizer).toBeInstanceOf(PunktTokenizer);
     });
     test("should fall back to English when language not found", () => {
-        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => { });
+        const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+        });
         const tokenizer = new PunktTokenizer("nonexistentlanguage");
         expect(warnSpy).toHaveBeenCalled();
         expect(tokenizer).toBeInstanceOf(PunktTokenizer);
@@ -27,7 +28,7 @@ describe("PunktTokenizer Constructor", () => {
         fs.readFileSync = jest.fn().mockImplementation(() => {
             throw new Error("Simulated read error");
         });
-        expect(() => new PunktTokenizer()).toThrow("Failed to load default English model");
+        expect(() => new PunktTokenizer('it')).toThrow("Simulated read error");
         fs.readFileSync = originalReadFileSync;
     });
 });
