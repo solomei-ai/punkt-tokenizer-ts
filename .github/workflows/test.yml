@@ -1,0 +1,35 @@
+name: Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Test coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          comment-pr: true
+          test-script: npm run test
+          annotations: none
+          output: comment

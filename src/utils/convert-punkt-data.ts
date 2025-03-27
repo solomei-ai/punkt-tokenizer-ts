@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import languageMap from "./language-map.js";
 
 /**
  * Converts abbrev_types.txt into an array of strings.
@@ -102,8 +103,6 @@ function convertPunktData(dataDir: string) {
     .readdirSync(punktTabDir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .map((dirent) => dirent.name);
-
-  const languageMap = require("./languageMap").default;
 
   for (const langDir of languageDirs) {
     const langLower = langDir.toLowerCase();

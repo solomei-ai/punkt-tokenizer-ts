@@ -111,7 +111,7 @@ This implementation:
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js (v22.14 or higher)
 - npm or yarn
 
 ### Setup Development Environment
@@ -132,11 +132,7 @@ npm start
 
 - `src/punkt.ts` - Main implementation of the Punkt tokenizer
 - `src/setup.ts` - Setup function to download and prepare models
-- `src/downloadSources.ts` - Functions to download NLTK data
-- `src/convertPunktData.ts` - Functions to convert NLTK data to JSON
-- `src/languageMap.ts` - Mapping between language names and codes
+- `src/download-sources.ts` - Functions to download NLTK data
+- `src/convert-punkt-data.ts` - Functions to convert NLTK data to JSON
+- `src/language-map.ts` - Mapping between language names and codes
 - `src/tests/` - Test files
-
-## License
-
-ISC
